@@ -12,20 +12,39 @@ public class Classe {
 
         for (Integer n: lista){
             if (n < limiteInferior || n > limiteSuperior){
-                throw new ListaInvalidaException("A lista passada é inválida pois "+n+" está fora do limite ("+limiteInferior+" > X > "+limiteSuperior+").");
+                throw new ListaInvalidaException("A lista passada é inválida pois "+n+" está fora do limite ("+limiteInferior+" > X > "+limiteSuperior+").", 0.0);
             }
             if (listaFiltrada.contains(n)){
-                throw new ListaInvalidaException("A lista passada é inválida pois "+n+" é repitido.");
+                throw new ListaInvalidaException("A lista passada é inválida pois "+n+" é repitido.", 0.0);
             }
             listaFiltrada.add(n);
         }
         return listaFiltrada;
     }
 
+    public List<Integer> gerarListaAleatoria(int tamanho, int valorMinimo, int valorMaximo){
+
+        List<Integer> lista = new ArrayList<>();
+        int s;
+        while (lista.size() < tamanho) {
+            s = new Random().nextInt(valorMaximo - valorMinimo) + valorMinimo;
+            if (!lista.contains(s)) {
+                lista.add(s);
+            }
+        }
+        return lista;
+    }
+
     public double metodoRefatorado(List<Integer> num, double valor){
 
 
-        List<Integer> listaFiltrada = filtrarLista(num, 1, 60);
+        try{
+            List<Integer> listaFiltrada = filtrarLista(num, 1, 60);
+        }catch(ListaInvalidaException e){
+            return e.getValor();
+        }
+
+        List<Integer> listaGerada = gerarListaAleatoria(6, 1, 60);
 
         return 0;
     }
