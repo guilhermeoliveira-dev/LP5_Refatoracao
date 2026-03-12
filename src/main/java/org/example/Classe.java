@@ -6,48 +6,11 @@ import java.util.Random;
 
 public class Classe {
 
-    public List<Integer> filtrarLista(List<Integer> lista, int limiteInferior, int limiteSuperior){
+    // A análise do metodo revela uma funcionalidade de loteria, onde a função recebe uma lista de valores que
+    // representam a aposta, e verifica se ela bate com os números, que são gerados aleatoriamente.
 
-        List<Integer> listaFiltrada = new ArrayList<>();
-
-        for (Integer n: lista){
-            if (n < limiteInferior || n > limiteSuperior){
-                throw new ListaInvalidaException("A lista passada é inválida pois "+n+" está fora do limite ("+limiteInferior+" > X > "+limiteSuperior+").", 0.0);
-            }
-            if (listaFiltrada.contains(n)){
-                throw new ListaInvalidaException("A lista passada é inválida pois "+n+" é repitido.", 0.0);
-            }
-            listaFiltrada.add(n);
-        }
-        return listaFiltrada;
-    }
-
-    public List<Integer> gerarListaAleatoria(int tamanho, int valorMinimo, int valorMaximo){
-
-        List<Integer> lista = new ArrayList<>();
-        int s;
-        while (lista.size() < tamanho) {
-            s = new Random().nextInt(valorMaximo - valorMinimo) + valorMinimo;
-            if (!lista.contains(s)) {
-                lista.add(s);
-            }
-        }
-        return lista;
-    }
-
-    public double metodoRefatorado(List<Integer> num, double valor){
-
-
-        try{
-            List<Integer> listaFiltrada = filtrarLista(num, 1, 60);
-        }catch(ListaInvalidaException e){
-            return e.getValor();
-        }
-
-        List<Integer> listaGerada = gerarListaAleatoria(6, 1, 60);
-
-        return 0;
-    }
+    // Problemas incluem a falta de modularização, com todas as funcionalidades sendo implementadas em um único metodo,
+    // bem como nomes e variáveis que não facilitam a compreensão.
 
     public double metodo(List<Integer> num, double valor) {
         List<Integer> list = new ArrayList<>();
