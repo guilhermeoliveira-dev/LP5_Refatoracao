@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RodarTestes" type="JUnit" factoryName="JUnit">
+    <module name="Projeto_Base_LP5" />
+    <option name="PACKAGE_NAME" value="org" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="package" />
+    <dir value="$PROJECT_DIR$/src/test" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
