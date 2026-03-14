@@ -13,38 +13,35 @@ public class Loteria {
         this.numerosSorteados = sorteados;
         this.premio = premio;
     }
-    public Loteria() {
+    public Loteria(double premio) {
         this.numerosSorteados = sortearNumeros(6, 1, 60);
-        this.premio = 0;
+        this.premio = premio;
     }
 
-    public Set<Integer> validarJogada(Set<Integer> jogada, int limiteInferior, int limiteSuperior){
+    public static Set<Integer> validarJogada(Set<Integer> jogada, int limiteInferior, int limiteSuperior){
 
         Set<Integer> jogadaValidada = new HashSet<>();
 
         for (Integer n: jogada){
             if (n < limiteInferior || n > limiteSuperior){
-                throw new JogadaInvalidaException(n+" está fora do limite ("+limiteInferior+" > X > "+limiteSuperior+")", 0.0);
-            }
-            if (jogadaValidada.contains(n)){
-                throw new JogadaInvalidaException(n+" é repetido", 0.0);
+                throw new JogadaInvalidaException(n+" está fora do intervalo ("+limiteInferior+" > X > "+limiteSuperior+")");
             }
             jogadaValidada.add(n);
         }
 
         if (jogadaValidada.size() < 6 || jogadaValidada.size() > 15){
-            throw new JogadaInvalidaException("o tamanho de "+jogadaValidada.size()+" é inválido", 0.0);
+            throw new JogadaInvalidaException("o tamanho de "+jogadaValidada.size()+" é inválido");
         }
 
         return jogadaValidada;
     }
 
-    public Set<Integer> sortearNumeros(int tamanho, int valorMinimo, int valorMaximo){
+    public static Set<Integer> sortearNumeros(int tamanho, int valorMinimo, int valorMaximo){
 
         Set<Integer> sorteio = new HashSet<>();
 
         while (sorteio.size() < tamanho) {
-            int s = new Random().nextInt(valorMaximo - valorMinimo) + valorMinimo;
+            int s = new Random().nextInt(valorMaximo - valorMinimo + 1) + valorMinimo;
             sorteio.add(s);
         }
         return sorteio;
@@ -52,7 +49,7 @@ public class Loteria {
 
     public double jogar(Set<Integer> jogada){
 
-        Set<Integer> jogadaFiltrada = jogadaFiltrada = validarJogada(jogada, 1, 60);
+        Set<Integer> jogadaFiltrada = validarJogada(jogada, 1, 60);
 
         int totalCoincidentes = 0;
 
@@ -74,6 +71,14 @@ public class Loteria {
 
         return premio * multiplicador;
 
+    }
+
+    public double getPremio() {
+        return premio;
+    }
+
+    public Set<Integer> getNumerosSorteados() {
+        return new HashSet<>(numerosSorteados);
     }
 
 }
