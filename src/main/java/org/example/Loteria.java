@@ -2,66 +2,62 @@ package org.example;
 
 import org.example.exception.JogadaInvalidaException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Loteria {
 
-    private final List<Integer> sorteados;
+    private final Set<Integer> numerosSorteados;
     private final double premio;
 
-    public Loteria(List<Integer> sorteados, double premio) {
-        this.sorteados = sorteados;
+    public Loteria(Set<Integer> sorteados, double premio) {
+        this.numerosSorteados = sorteados;
         this.premio = premio;
     }
-    public Loteria(double premio) {
-        this.sorteados = sortearNumeros(6, 1, 60);
+    public Loteria() {
+        this.numerosSorteados = sortearNumeros(6, 1, 60);
         this.premio = 0;
     }
 
-    public List<Integer> validarJogada(List<Integer> jogada, int limiteInferior, int limiteSuperior){
+    public Set<Integer> validarJogada(Set<Integer> jogada, int limiteInferior, int limiteSuperior){
 
-        List<Integer> listaFiltrada = new ArrayList<>();
+        Set<Integer> jogadaValidada = new HashSet<>();
 
         for (Integer n: jogada){
             if (n < limiteInferior || n > limiteSuperior){
                 throw new JogadaInvalidaException(n+" está fora do limite ("+limiteInferior+" > X > "+limiteSuperior+")", 0.0);
             }
-            if (listaFiltrada.contains(n)){
+            if (jogadaValidada.contains(n)){
                 throw new JogadaInvalidaException(n+" é repetido", 0.0);
             }
-            listaFiltrada.add(n);
+            jogadaValidada.add(n);
         }
 
-        if (listaFiltrada.size() < 6 || listaFiltrada.size() > 15){
-            throw new JogadaInvalidaException("o tamanho de "+listaFiltrada.size()+" é inválido", 0.0);
+        if (jogadaValidada.size() < 6 || jogadaValidada.size() > 15){
+            throw new JogadaInvalidaException("o tamanho de "+jogadaValidada.size()+" é inválido", 0.0);
         }
 
-        return listaFiltrada;
+        return jogadaValidada;
     }
 
-    public List<Integer> sortearNumeros(int tamanho, int valorMinimo, int valorMaximo){
+    public Set<Integer> sortearNumeros(int tamanho, int valorMinimo, int valorMaximo){
 
-        List<Integer> lista = new ArrayList<>();
-        int s;
-        while (lista.size() < tamanho) {
-            s = new Random().nextInt(valorMaximo - valorMinimo) + valorMinimo;
-            if (!lista.contains(s)) {
-                lista.add(s);
-            }
+        Set<Integer> sorteio = new HashSet<>();
+
+        while (sorteio.size() < tamanho) {
+            int s = new Random().nextInt(valorMaximo - valorMinimo) + valorMinimo;
+            sorteio.add(s);
         }
-        return lista;
+        return sorteio;
     }
 
-    public double jogar(List<Integer> jogada){
+    public double jogar(Set<Integer> jogada){
 
-        List<Integer> jogadaFiltrada = jogadaFiltrada = validarJogada(jogada, 1, 60);
+        Set<Integer> jogadaFiltrada = jogadaFiltrada = validarJogada(jogada, 1, 60);
 
         int totalCoincidentes = 0;
 
         for (Integer numeroJogada: jogadaFiltrada){
-            if(sorteados.contains(numeroJogada)){
+            if(numerosSorteados.contains(numeroJogada)){
                 totalCoincidentes++;
             }
         }
